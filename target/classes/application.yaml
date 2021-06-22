@@ -8,3 +8,9 @@ spring:
     password: 5201314
   thymeleaf:
     cache: false
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html; charset=utf-8
+
+
+
