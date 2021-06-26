@@ -16,7 +16,7 @@
     <select id="login" resultMap="BaseResultMap">
         select
       <include refid="Base_Colum_List"></include>
-        from  tb_newbee_mall_admin_user
+        from  mall_admin_user
         where login_user_name = #{userName,jdbcType=VARCHAR} and login_password=#{password, jdbcType=VARCHAR} and locked = 0
     </select>
 
