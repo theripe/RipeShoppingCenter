@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
  * @Author TheRipe
  * @create 2021/6/24 16:49
  */
-public interface AdminUserMapper {
+public interface AdminUsersMapper {
     int insert(AdminUser record);
     int insertSelective(AdminUser record);
     AdminUser login(@Param("userName") String userName, @Param("password") String password);

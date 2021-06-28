@@ -1,9 +1,8 @@
 package com.theripe.center.controller.admin;
 
 import com.theripe.center.bean.AdminUser;
-import com.theripe.center.dao.AdminUserMapper;
+import com.theripe.center.dao.AdminUsersMapper;
 import com.theripe.center.service.AdminUserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,7 @@ public class AdminController {
     @Resource
     AdminUserService adminUserService;
     @Resource
-    AdminUserMapper mapper;
+    AdminUsersMapper mapper;
 
     @GetMapping("/login")
     public String login() {
