@@ -1,5 +1,6 @@
 package com.theripe.center;
 
+import com.theripe.center.utils.MD5Util;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,10 @@ class CenterApplicationTests {
         System.out.println(connection != null);
         connection.close();
 
+    }
+    @Test
+    public void mm() {
+        System.out.println(MD5Util.MD5Encode("5201314", "UTF-8"));
     }
 
 }

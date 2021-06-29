@@ -9,4 +9,12 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface AdminUserService {
     AdminUser login(@Param("userName") String userName, @Param("password") String password);
+
+    AdminUser getUserById(Integer loginUserId);
+
+    Boolean updatePassword(Integer loginUserId, String originalPassword, String newPassword);
+
+    Boolean updateName(Integer loginUserId, String loginUserName, String nickName);
+
+    int insertAdmin(AdminUser adminUser);
 }

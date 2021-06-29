@@ -48,11 +48,6 @@
         where categoryId = #{id,jdbcType=BIGINT}
     </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-        delete
-        from mall_goods_category
-        where categoryId = #{goodsId,jdbcType=BIGINT}
-    </delete>
 
     <insert id="insert" parameterType="com.theripe.center.bean.GoodsCategory">
         insert into
