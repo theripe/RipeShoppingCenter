@@ -20,8 +20,8 @@ public class JdbcController {
 
     @GetMapping("/user/queryAll")
     public List<Map<String,Object>> queryAll() {
-        List<Map<String, Object>> lisrt = jdbcTemplate.queryForList("select * from user");
-        return lisrt;
+        List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from user");
+        return list;
     }
 
     @GetMapping("/user/insert")
