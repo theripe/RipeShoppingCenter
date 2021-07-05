@@ -41,7 +41,7 @@
     </select>
 
 
-    <select id="selectByid" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    <select id="selectById" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
         select
         <include refid="Base_Column_List"/>
         from mall_goods_category
@@ -175,6 +175,24 @@
     where category_id = #{categoryId,jdbcType=BIGINT}
   </update>
 
+    <select id="findGoodsCategoryList" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mall_goods_category
+        <where>
+            <if test="categoryLevel!=null and categoryLevel!=''">
+                and category_level = #{categoryLevel}
+            </if>
+            <if test="parentId!=null and parentId!=''">
+                and parent_id = #{parentId}
+            </if>
+            and is_deleted = 0
+        </where>
+        order by category_rank desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
     <update id="updateByIdSelective" parameterType="com.theripe.center.bean.GoodsCategory">
         update mall_goods_category
         <set>

@@ -12,7 +12,7 @@ import java.util.Date;
 
 //购物车
     @Data
-public class ShoopingCartItem {
+public class ShoppingCartItem {
     private Long cartItemId;
     private Long userId;
     private Long goodsId;

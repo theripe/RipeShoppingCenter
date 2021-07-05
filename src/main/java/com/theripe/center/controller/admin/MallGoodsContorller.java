@@ -33,6 +33,7 @@ public class MallGoodsContorller {
 
     @GetMapping("/goods/edit")
     public String editGoods(HttpServletRequest request) {
+        System.out.println("进来1");
         request.setAttribute("path","edit");
         List<GoodsCategory> firstLevelCategories  = mallCategoryService.selectByLevelAndParentIdsAndNumber(Collections.singletonList(0L), CategoryLevelEnum.LEVEL_ONE.getLevel());
         if (!CollectionUtils.isEmpty(firstLevelCategories)) {
@@ -51,6 +52,7 @@ public class MallGoodsContorller {
     }
     @GetMapping("/goods/edit/{goodsId}")
     public String edit(HttpServletRequest request, @PathVariable("goodsId") Long id) {
+        System.out.println("进来2");
         request.setAttribute("path","edit");
         GoodsCategory goodsCategory = mallCategoryService.slectById(id);
         if(goodsCategory == null) {
