@@ -1,6 +1,10 @@
 package com.theripe.center.bean;
 
 import lombok.Data;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Author TheRipe
