@@ -1,6 +1,7 @@
 package com.theripe.center.controller.admin;
 
 import com.theripe.center.common.IndexConfigTypeEnum;
+import com.theripe.center.service.MallIndexConfigService;
 import com.theripe.center.utils.PageQueryUtil;
 import com.theripe.center.utils.Result;
 import com.theripe.center.utils.ResultGenerator;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class MallGoodsIndexConfigController {
 
+    @Resource
+    MallIndexConfigService mallIndexConfigService;
     @GetMapping("/indexConfigs")
     public String indexConfigsPage(HttpServletRequest request, @RequestParam("configType") int configType) {
         IndexConfigTypeEnum indexConfigTypeEnum = IndexConfigTypeEnum.getIndexConfigTypeEnumByType(configType);
@@ -37,6 +41,6 @@ public class MallGoodsIndexConfigController {
             return ResultGenerator.genFailResult("参数异常");
         }
         PageQueryUtil pageQueryUtil = new PageQueryUtil(params);
-        return ResultGenerator.genSuccessResult(MallIndexConfigService);
+        return ResultGenerator.genSuccessResult(mallIndexConfigService);
     }
 }
