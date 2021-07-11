@@ -16,15 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 public class AdminLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//       String requestServletPath = request.getServletPath();
-//       if (requestServletPath.startsWith("/admin") && request.getSession().getAttribute("loginUser") == null) {
-//           response.sendRedirect(request.getContextPath()+"/admin/login");
-//           return false;
-//       } else {
-//           request.getSession().removeAttribute("errorMsg");
-//           return true;
-//       }
-        return true;
+       String requestServletPath = request.getServletPath();
+       if (requestServletPath.startsWith("/admin") && request.getSession().getAttribute("loginUser") == null) {
+           response.sendRedirect(request.getContextPath()+"/admin/login");
+           return false;
+       } else {
+           request.getSession().removeAttribute("errorMsg");
+           return true;
+       }
 
     }
 
