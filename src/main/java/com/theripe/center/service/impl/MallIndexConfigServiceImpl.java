@@ -8,6 +8,7 @@ import com.theripe.center.dao.MallGoodsMapper;
 import com.theripe.center.service.MallIndexConfigService;
 import com.theripe.center.utils.PageQueryUtil;
 import com.theripe.center.utils.PageResult;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.List;
  * @Author TheRipe
  * @create 2021/7/8 20:00
  */
+@Service
 public class MallIndexConfigServiceImpl implements MallIndexConfigService {
     @Resource
     IndexConfigMapper indexConfigMapper;
