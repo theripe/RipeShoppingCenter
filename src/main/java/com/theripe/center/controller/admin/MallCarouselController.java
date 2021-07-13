@@ -3,6 +3,7 @@ package com.theripe.center.controller.admin;
 import com.theripe.center.bean.Carousel;
 import com.theripe.center.utils.PageQueryUtil;
 import com.theripe.center.utils.Result;
+import com.theripe.center.utils.ResultGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
