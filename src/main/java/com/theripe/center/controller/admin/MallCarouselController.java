@@ -1,6 +1,8 @@
 package com.theripe.center.controller.admin;
 
 import com.theripe.center.bean.Carousel;
+import com.theripe.center.common.ServiceResultEnum;
+import com.theripe.center.service.MallCarouselService;
 import com.theripe.center.utils.PageQueryUtil;
 import com.theripe.center.utils.Result;
 import com.theripe.center.utils.ResultGenerator;
@@ -20,12 +22,12 @@ import java.util.Objects;
 @Controller
 public class MallCarouselController {
     @Resource
-    MallCarouselService newBeeMallCarouselService;
+    MallCarouselService mallCarouselService;
 
     @GetMapping("/carousels")
     public String carouselPage(HttpServletRequest request) {
         request.setAttribute("path", "newbee_mall_carousel");
-        return "admin/newbee_mall_carousel";
+        return "admin/theripe_mall_carousel";
     }
 
     /**
@@ -38,7 +40,7 @@ public class MallCarouselController {
             return ResultGenerator.genFailResult("参数异常！");
         }
         PageQueryUtil pageUtil = new PageQueryUtil(params);
-        return ResultGenerator.genSuccessResult(newBeeMallCarouselService.getCarouselPage(pageUtil));
+        return ResultGenerator.genSuccessResult(MallCarouselService.getCarouselPage(pageUtil));
     }
 
     /**
@@ -51,7 +53,7 @@ public class MallCarouselController {
                 || Objects.isNull(carousel.getCarouselRank())) {
             return ResultGenerator.genFailResult("参数异常！");
         }
-        String result = newBeeMallCarouselService.saveCarousel(carousel);
+        String result = MallCarouselService.saveCarousel(carousel);
         if (ServiceResultEnum.SUCCESS.getResult().equals(result)) {
             return ResultGenerator.genSuccessResult();
         } else {

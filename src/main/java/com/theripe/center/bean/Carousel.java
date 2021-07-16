@@ -12,9 +12,9 @@ import java.util.Date;
 @Data
 public class Carousel {
     private Integer carouselId;
-    private String carouseUrl;
+    private String carouselUrl;
     private String redirectUrl;
-    private Integer carouseRank;
+    private Integer carouselRank;
     private Byte isDeleted;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
@@ -27,9 +27,9 @@ public class Carousel {
     public String toString() {
         return "Carousel{" +
                 "carouselId=" + carouselId +
-                ", carouseUrl='" + carouseUrl + '\'' +
+                ", carouseUrl='" + carouselUrl + '\'' +
                 ", redirectUrl='" + redirectUrl + '\'' +
-                ", carouseRank=" + carouseRank +
+                ", carouseRank=" + carouselRank +
                 ", isDeleted=" + isDeleted +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
