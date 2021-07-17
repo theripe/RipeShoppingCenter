@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface MallCarouselService {
 
+    int insertMallCarousel(Carousel carousel);
 }
