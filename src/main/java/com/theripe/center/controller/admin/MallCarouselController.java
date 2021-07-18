@@ -40,7 +40,7 @@ public class MallCarouselController {
             return ResultGenerator.genFailResult("参数异常！");
         }
         PageQueryUtil pageUtil = new PageQueryUtil(params);
-        return ResultGenerator.genSuccessResult(MallCarouselService.getCarouselPage(pageUtil));
+        return ResultGenerator.genSuccessResult(mallCarouselService.getCarouselPage(pageUtil));
     }
 
     /**
@@ -53,7 +53,7 @@ public class MallCarouselController {
                 || Objects.isNull(carousel.getCarouselRank())) {
             return ResultGenerator.genFailResult("参数异常！");
         }
-        String result = MallCarouselService.saveCarousel(carousel);
+        String result = mallCarouselService.saveCarousel(carousel);
         if (ServiceResultEnum.SUCCESS.getResult().equals(result)) {
             return ResultGenerator.genSuccessResult();
         } else {
@@ -73,7 +73,7 @@ public class MallCarouselController {
                 || Objects.isNull(carousel.getCarouselRank())) {
             return ResultGenerator.genFailResult("参数异常！");
         }
-        String result = newBeeMallCarouselService.updateCarousel(carousel);
+        String result = mallCarouselService.updateCarousel(carousel);
         if (ServiceResultEnum.SUCCESS.getResult().equals(result)) {
             return ResultGenerator.genSuccessResult();
         } else {
@@ -87,7 +87,7 @@ public class MallCarouselController {
     @GetMapping("/carousels/info/{id}")
     @ResponseBody
     public Result info(@PathVariable("id") Integer id) {
-        Carousel carousel = newBeeMallCarouselService.getCarouselById(id);
+        Carousel carousel = mallCarouselService.getCarouselById(id);
         if (carousel == null) {
             return ResultGenerator.genFailResult(ServiceResultEnum.DATA_NOT_EXIST.getResult());
         }
@@ -103,7 +103,7 @@ public class MallCarouselController {
         if (ids.length < 1) {
             return ResultGenerator.genFailResult("参数异常！");
         }
-        if (newBeeMallCarouselService.deleteBatch(ids)) {
+        if (mallCarouselService.deleteBatch(ids)) {
             return ResultGenerator.genSuccessResult();
         } else {
             return ResultGenerator.genFailResult("删除失败");
