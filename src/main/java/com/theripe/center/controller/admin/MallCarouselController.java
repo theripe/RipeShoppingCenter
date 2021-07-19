@@ -20,13 +20,14 @@ import java.util.Objects;
  * @create 2021/7/12 23:02
  */
 @Controller
+@RequestMapping("/admin")
 public class MallCarouselController {
     @Resource
     MallCarouselService mallCarouselService;
 
     @GetMapping("/carousels")
     public String carouselPage(HttpServletRequest request) {
-        request.setAttribute("path", "newbee_mall_carousel");
+        request.setAttribute("path", "theripe_mall_carousel");
         return "admin/theripe_mall_carousel";
     }
 

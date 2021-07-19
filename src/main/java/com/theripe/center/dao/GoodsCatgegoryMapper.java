@@ -13,13 +13,13 @@ import java.util.List;
  */
 public interface GoodsCatgegoryMapper {
    List<GoodsCategory>  selectByLevelAndParentIdsAndNumber(@Param("parentIds") List<Long> parentIds, @Param("categoryLevel") int categoryLevel, @Param("number") int number);
-   GoodsCategory selectById(Long id);
+   GoodsCategory selectByPrimaryKey(Long id);
    int deleteByPrimaryKey(Long goodsId);
    int insert(GoodsCategory record );
    int insertSelective(GoodsCategory record);
    GoodsCategory selectByLevelAndName(@Param("categoryLevel") Byte categoryLevel, @Param("categoryName") String categoryName) ;
-   int updateById(GoodsCategory record);
-   int updateByIdSelective(GoodsCategory record);
+   int updateByPrimaryKey(GoodsCategory record);
+   int updateByPrimaryKeySelective(GoodsCategory record);
    List<GoodsCategory> findGoodSCateGoryList(PageQueryUtil pageUtil);
    int getTotalGoodsCategories(PageQueryUtil pageUtil);
    int deleteBatch(Integer[] ids);

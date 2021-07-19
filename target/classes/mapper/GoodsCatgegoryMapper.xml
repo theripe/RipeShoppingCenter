@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.theripe.center.dao.GoodsCatgegoryMapper">
     <resultMap id="BaseResultMap" type="com.theripe.center.bean.GoodsCategory">
-        <id column="category_id" jdbcType="BIGINT" property="categoryId"></id>
+        <id column="category_id" jdbcType="BIGINT" property="categoryId"/>
         <result column="category_level" jdbcType="TINYINT" property="categoryLevel"/>
         <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
         <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
@@ -15,52 +13,91 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="update_user" jdbcType="INTEGER" property="updateUser"/>
     </resultMap>
-
-    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.theripe.center.bean.GoodsInfo">
-        <result column="goods_detail_content" jdbcType="LONGVARCHAR" property="goodsDetailContent"/>
-    </resultMap>
     <sql id="Base_Column_List">
     category_id, category_level, parent_id, category_name, category_rank, is_deleted,
     create_time, create_user, update_time, update_user
-    </sql>
-
-    <select id="selectByLevelAndParentIdsAndNumber" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" ></include>
-    from mall_goods_category
-    where parent_id in
-    <foreach collection="parentIds" item="parentId" open ="(" separator="," close=")">
-        #{parentId, jdbcType=BIGINT}
-    </foreach>
-    and category_level = #{categoryLevel,jdbcType= TINYINT}
-    and is_deleted = 0
-    order by category_rank desc
-    <if test="number > 0">
-        limit#{number}
-    </if>
-    </select>
-
-
-    <select id="selectById" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  </sql>
+    <select id="findGoodsCategoryList" parameterType="Map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from mall_goods_category
-        where category_Id = #{id,jdbcType=BIGINT}
+        <where>
+            <if test="categoryLevel!=null and categoryLevel!=''">
+                and category_level = #{categoryLevel}
+            </if>
+            <if test="parentId!=null and parentId!=''">
+                and parent_id = #{parentId}
+            </if>
+            and is_deleted = 0
+        </where>
+        order by category_rank desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
     </select>
-
-
+    <select id="getTotalGoodsCategories" parameterType="Map" resultType="int">
+        select count(*) from mall_goods_category
+        <where>
+            <if test="categoryLevel!=null and categoryLevel!=''">
+                and category_level = #{categoryLevel}
+            </if>
+            <if test="parentId!=null and parentId!=''">
+                and parent_id = #{parentId}
+            </if>
+            and is_deleted = 0
+        </where>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mall_goods_category
+        where category_id = #{categoryId,jdbcType=BIGINT} and is_deleted=0
+    </select>
+    <select id="selectByLevelAndName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mall_goods_category
+        where category_name = #{categoryName,jdbcType=VARCHAR} and category_level = #{categoryLevel,jdbcType=TINYINT}
+        and is_deleted = 0 limit 1
+    </select>
+    <select id="selectByLevelAndParentIdsAndNumber" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from mall_goods_category
+        where parent_id in
+        <foreach item="parentId" collection="parentIds" open="(" separator="," close=")">
+            #{parentId,jdbcType=BIGINT}
+        </foreach>
+        and category_level = #{categoryLevel,jdbcType=TINYINT}
+        and is_deleted = 0
+        order by category_rank desc
+        <if test="number>0">
+            limit #{number}
+        </if>
+    </select>
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update mall_goods_category set is_deleted=1
+    where category_id = #{categoryId,jdbcType=BIGINT} and is_deleted=0
+  </update>
+    <update id="deleteBatch">
+        update mall_goods_category
+        set is_deleted=1 where category_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
     <insert id="insert" parameterType="com.theripe.center.bean.GoodsCategory">
-        insert into
-        mall_goods_category
-        values(#{categoryId,jdbcType=BIGINT}, #{categoryLevel,jdbcType=TINYINT}, #{parentId,jdbcType=BIGINT},
+    insert into mall_goods_category (category_id, category_level, parent_id,
+      category_name, category_rank, is_deleted,
+      create_time, create_user, update_time,
+      update_user)
+    values (#{categoryId,jdbcType=BIGINT}, #{categoryLevel,jdbcType=TINYINT}, #{parentId,jdbcType=BIGINT},
       #{categoryName,jdbcType=VARCHAR}, #{categoryRank,jdbcType=INTEGER}, #{isDeleted,jdbcType=TINYINT},
       #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP},
       #{updateUser,jdbcType=INTEGER})
-    </insert>
-
+  </insert>
     <insert id="insertSelective" parameterType="com.theripe.center.bean.GoodsCategory">
-        insert into
-        mall_goods_category
+        insert into mall_goods_category
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="categoryId != null">
                 category_id,
@@ -126,74 +163,7 @@
             </if>
         </trim>
     </insert>
-
-    <select id="selectByLevelAndName" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"></include>
-        from mall_goods_category
-        where  category_name = #{categoryName,jdbcType=VARCHAR} and category_level = #{categoryLevel,jdbcType=TINYINT}
-        and is_deleted = 0 limit 1
-    </select>
-
-    <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    update mall_goods_category set is_deleted=1
-    where category_id = #{categoryId,jdbcType=BIGINT} and is_deleted=0
-  </update>
-
-    <update id="deleteBatch">
-        update mall_goods_category
-        set is_deleted=1 where category_id in
-        <foreach item="id" collection="array" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </update>
-
-    <select id="getTotalGoodsCategories" parameterType="Map" resultType="int">
-        select count(*) from mall_goods_category
-        <where>
-            <if test="categoryLevel!=null and categoryLevel!=''">
-                and category_level = #{categoryLevel}
-            </if>
-            <if test="parentId!=null and parentId!=''">
-                and parent_id = #{parentId}
-            </if>
-            and is_deleted = 0
-        </where>
-    </select>
-
-    <update id="updateById" parameterType="com.theripe.center.bean.GoodsCategory">
-    update mall_goods_category
-    set category_level = #{categoryLevel,jdbcType=TINYINT},
-      parent_id = #{parentId,jdbcType=BIGINT},
-      category_name = #{categoryName,jdbcType=VARCHAR},
-      category_rank = #{categoryRank,jdbcType=INTEGER},
-      is_deleted = #{isDeleted,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user = #{createUser,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user = #{updateUser,jdbcType=INTEGER}
-    where category_id = #{categoryId,jdbcType=BIGINT}
-  </update>
-
-    <select id="findGoodsCategoryList" parameterType="Map" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from mall_goods_category
-        <where>
-            <if test="categoryLevel!=null and categoryLevel!=''">
-                and category_level = #{categoryLevel}
-            </if>
-            <if test="parentId!=null and parentId!=''">
-                and parent_id = #{parentId}
-            </if>
-            and is_deleted = 0
-        </where>
-        order by category_rank desc
-        <if test="start!=null and limit!=null">
-            limit #{start},#{limit}
-        </if>
-    </select>
-    <update id="updateByIdSelective" parameterType="com.theripe.center.bean.GoodsCategory">
+    <update id="updateByPrimaryKeySelective" parameterType="com.theripe.center.bean.GoodsCategory">
         update mall_goods_category
         <set>
             <if test="categoryLevel != null">
@@ -226,4 +196,17 @@
         </set>
         where category_id = #{categoryId,jdbcType=BIGINT}
     </update>
+    <update id="updateByPrimaryKey" parameterType="com.theripe.center.bean.GoodsCategory">
+    update mall_goods_category
+    set category_level = #{categoryLevel,jdbcType=TINYINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      category_name = #{categoryName,jdbcType=VARCHAR},
+      category_rank = #{categoryRank,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=INTEGER}
+    where category_id = #{categoryId,jdbcType=BIGINT}
+  </update>
 </mapper>

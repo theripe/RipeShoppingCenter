@@ -23,17 +23,17 @@ import java.util.List;
 
     int updateByPrimaryKey(GoodsInfo record);
 
-    List<GoodsInfo> findNewBeeMallGoodsList(PageQueryUtil pageUtil);
+    List<GoodsInfo> findGoodsList(PageQueryUtil pageUtil);
 
-    int getTotalNewBeeMallGoods(PageQueryUtil pageUtil);
+    int getTotalMallGoods(PageQueryUtil pageUtil);
 
     List<GoodsInfo> selectByPrimaryKeys(List<Long> goodsIds);
 
-    List<GoodsInfo> findNewBeeMallGoodsListBySearch(PageQueryUtil pageUtil);
+    List<GoodsInfo> findMallGoodsListBySearch(PageQueryUtil pageUtil);
 
-    int getTotalNewBeeMallGoodsBySearch(PageQueryUtil pageUtil);
+    int getTotalMallGoodsBySearch(PageQueryUtil pageUtil);
 
-    int batchInsert(@Param("newBeeMallGoodsList") List<GoodsInfo> newBeeMallGoodsList);
+    int batchInsert(@Param("MallGoodsList") List<GoodsInfo> MallGoodsList);
 
     int updateStockNum(@Param("stockNumDTOS") List<StockNumDTO> stockNumDTOS);
 

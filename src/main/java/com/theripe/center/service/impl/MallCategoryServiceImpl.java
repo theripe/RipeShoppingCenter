@@ -29,7 +29,7 @@ public class MallCategoryServiceImpl implements MallCategoryService {
 
     @Override
     public GoodsCategory slectById(Long id) {
-        GoodsCategory goodsCategory = goodsCatgegoryMapper.selectById(id);
+        GoodsCategory goodsCategory = goodsCatgegoryMapper.selectByPrimaryKey(id);
         return goodsCategory;
     }
 
