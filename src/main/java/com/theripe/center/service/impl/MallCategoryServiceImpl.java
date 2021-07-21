@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class MallCategoryServiceImpl implements MallCategoryService {
 
     @Override
     public PageResult getCategorisPage(PageQueryUtil pageUtil) {
-        List<GoodsCategory> goodsCategories = goodsCatgegoryMapper.findGoodSCateGoryList(pageUtil);
+        List<GoodsCategory> goodsCategories = goodsCatgegoryMapper.findGoodsCategoryList(pageUtil);
         int total = goodsCatgegoryMapper.getTotalGoodsCategories(pageUtil);
         PageResult pageResult = new PageResult(goodsCategories, total, pageUtil.getLimit(), pageUtil.getPage());
         return pageResult;
@@ -43,7 +44,11 @@ public class MallCategoryServiceImpl implements MallCategoryService {
 
     @Override
     public Boolean deleteBatch(Integer[] ids) {
-        return null;
+        int i = goodsCatgegoryMapper.deleteBatch(ids);
+        if (i > 0 ) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -56,5 +61,28 @@ public class MallCategoryServiceImpl implements MallCategoryService {
             return ServiceResultEnum.SUCCESS.getResult();
         }
         return ServiceResultEnum.DB_ERROR.getResult();
+    }
+
+    @Override
+    public String updateGoodsCategory(GoodsCategory goodsCategory) {
+        GoodsCategory temp = goodsCatgegoryMapper.selectByPrimaryKey(goodsCategory.getCategoryId());
+        if (temp == null) {
+            return ServiceResultEnum.DATA_NOT_EXIST.getResult();
+        }
+        GoodsCategory temp2 = goodsCatgegoryMapper.selectByLevelAndName(goodsCategory.getCategoryLevel(), goodsCategory.getCategoryName());
+        if (temp2 != null && !temp2.getCategoryId().equals(goodsCategory.getCategoryId())) {
+            //同名且不同id 不能继续修改
+            return ServiceResultEnum.SAME_CATEGORY_EXIST.getResult();
+        }
+        goodsCategory.setUpdateTime(new Date());
+        if (goodsCatgegoryMapper.updateByPrimaryKeySelective(goodsCategory) > 0) {
+            return ServiceResultEnum.SUCCESS.getResult();
+        }
+        return ServiceResultEnum.DB_ERROR.getResult();
+    }
+
+    @Override
+    public GoodsCategory getGoodsCategoryById(Long id) {
+        return goodsCatgegoryMapper.selectByPrimaryKey(id);
     }
 }

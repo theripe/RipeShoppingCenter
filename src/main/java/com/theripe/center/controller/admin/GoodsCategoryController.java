@@ -2,18 +2,19 @@ package com.theripe.center.controller.admin;
 
 import com.theripe.center.bean.GoodsCategory;
 import com.theripe.center.common.CategoryLevelEnum;
+import com.theripe.center.common.ServiceResultEnum;
 import com.theripe.center.service.MallCategoryService;
+import com.theripe.center.utils.PageQueryUtil;
 import com.theripe.center.utils.Result;
 import com.theripe.center.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * @Author TheRipe
@@ -24,6 +25,19 @@ import java.util.Map;
 public class GoodsCategoryController {
     @Resource
     private MallCategoryService mallCategoryService;
+
+    @GetMapping("/categories")
+    public String categoriesPage(HttpServletRequest request, @RequestParam("categoryLevel") Byte categoryLevel, @RequestParam("parentId") Long parentId, @RequestParam("backParentId") Long backParentId) {
+        if (categoryLevel == null || categoryLevel < 1 || categoryLevel > 3) {
+            return "error/error_5xx";
+        }
+        request.setAttribute("path", "theripe_mall_category");
+        request.setAttribute("parentId", parentId);
+        request.setAttribute("backParentId", backParentId);
+        request.setAttribute("categoryLevel", categoryLevel);
+        return "admin/theripe_mall_category";
+    }
+
     @RequestMapping(value = "/categories/listForSelect", method = RequestMethod.GET)
     @ResponseBody
     public Result listForSelect(@RequestParam("categoryId") Long categoryId) {
@@ -54,4 +68,90 @@ public class GoodsCategoryController {
         System.out.println(categoryResult.isEmpty());
         return ResultGenerator.genSuccessResult(categoryResult);
     }
+
+
+    /**
+     * 添加
+     */
+
+    @RequestMapping(value = "/categories/save", method = RequestMethod.POST)
+    @ResponseBody
+    public Result save(@RequestBody GoodsCategory goodsCategory) {
+        if (Objects.isNull(goodsCategory.getCategoryLevel())
+                || StringUtils.isEmpty(goodsCategory.getCategoryName())
+                || Objects.isNull(goodsCategory.getParentId())
+                || Objects.isNull(goodsCategory.getCategoryRank())) {
+            return ResultGenerator.genFailResult("参数异常！");
+        }
+        String result = mallCategoryService.saveCategory(goodsCategory);
+        if (ServiceResultEnum.SUCCESS.getResult().equals(result)) {
+            return ResultGenerator.genSuccessResult();
+        } else {
+            return ResultGenerator.genFailResult(result);
+        }
+    }
+
+    /**
+     * 修改
+     */
+    @RequestMapping(value = "/categories/update", method = RequestMethod.POST)
+    @ResponseBody
+    public Result update(@RequestBody GoodsCategory goodsCategory) {
+        if (Objects.isNull(goodsCategory.getCategoryId())
+                || Objects.isNull(goodsCategory.getCategoryLevel())
+                || StringUtils.isEmpty(goodsCategory.getCategoryName())
+                || Objects.isNull(goodsCategory.getParentId())
+                || Objects.isNull(goodsCategory.getCategoryRank())) {
+            return ResultGenerator.genFailResult("参数异常！");
+        }
+        String result = mallCategoryService.updateGoodsCategory(goodsCategory);
+        if (ServiceResultEnum.SUCCESS.getResult().equals(result)) {
+            return ResultGenerator.genSuccessResult();
+        } else {
+            return ResultGenerator.genFailResult(result);
+        }
+    }
+
+    /**
+     * 详情
+     */
+    @GetMapping("/categories/info/{id}")
+    @ResponseBody
+    public Result info(@PathVariable("id") Long id) {
+        GoodsCategory goodsCategory = mallCategoryService.getGoodsCategoryById(id);
+        if (goodsCategory == null) {
+            return ResultGenerator.genFailResult("未查询到数据");
+        }
+        return ResultGenerator.genSuccessResult(goodsCategory);
+    }
+
+    /**
+     * 分类删除
+     */
+    @RequestMapping(value = "/categories/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Result delete(@RequestBody Integer[] ids) {
+
+        if (ids.length < 1) {
+            return ResultGenerator.genFailResult("参数异常！");
+        }
+        if (mallCategoryService.deleteBatch(ids)) {
+            return ResultGenerator.genSuccessResult();
+        } else {
+            return ResultGenerator.genFailResult("删除失败");
+        }
+    }
+
+    @RequestMapping(value = "/categories/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Result list(@RequestParam Map<String, Object> params) {
+        if (StringUtils.isEmpty(params.get("page")) || StringUtils.isEmpty(params.get("limit")) || StringUtils.isEmpty(params.get("categoryLevel")) || StringUtils.isEmpty(params.get("parentId"))) {
+            return ResultGenerator.genFailResult("参数异常！");
+        }
+        PageQueryUtil pageUtil = new PageQueryUtil(params);
+        return ResultGenerator.genSuccessResult(mallCategoryService.getCategorisPage(pageUtil));
+    }
+
+
+
 }

@@ -1,6 +1,9 @@
 package com.theripe.center.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * @Author TheRipe
@@ -18,6 +21,8 @@ public class MallUser {
     private String address;
     private Byte isDeleted;
     private Byte lockedFlag;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
 
     @Override
     public String toString() {

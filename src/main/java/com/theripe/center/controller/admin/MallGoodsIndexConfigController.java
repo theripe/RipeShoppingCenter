@@ -39,7 +39,7 @@ public class MallGoodsIndexConfigController {
 
     }
     //列表
-    @RequestMapping(value = "/indeConfigs/list",method = RequestMethod.GET)
+    @RequestMapping(value = "/indexConfigs/list",method = RequestMethod.GET)
     @ResponseBody
     public Result list(@RequestParam Map<String,Object> params) {
         if (StringUtils.isEmpty(params.get("page")) || StringUtils.isEmpty(params.get("limit"))) {

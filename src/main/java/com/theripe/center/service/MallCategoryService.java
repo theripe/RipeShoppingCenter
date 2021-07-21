@@ -16,4 +16,7 @@ public interface MallCategoryService {
     PageResult getCategorisPage(PageQueryUtil pageUtil);
     Boolean deleteBatch(Integer[] ids);
     String saveCategory(GoodsCategory goodsCategory);
+    String updateGoodsCategory(GoodsCategory goodsCategory);
+    GoodsCategory getGoodsCategoryById(Long id);
+
 }

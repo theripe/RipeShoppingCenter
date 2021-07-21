@@ -12,6 +12,7 @@ import com.theripe.center.utils.BeanUtil;
 import com.theripe.center.utils.PageQueryUtil;
 import com.theripe.center.utils.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.List;
  * @Author TheRipe
  * @create 2021/7/19 16:59
  */
+@Service
 public class MallGoodsServiceImpl implements MallGoodsService {
 
     @Autowired
