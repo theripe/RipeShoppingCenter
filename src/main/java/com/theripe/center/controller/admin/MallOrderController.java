@@ -25,7 +25,7 @@ import java.util.Objects;
  */
 @Controller
 @RequestMapping("/admin")
-public class OrderController {
+public class MallOrderController {
 
     @Resource
     MallOrderService mallOrderService;

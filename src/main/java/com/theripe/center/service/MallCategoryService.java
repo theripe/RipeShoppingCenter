@@ -1,6 +1,8 @@
 package com.theripe.center.service;
 
 import com.theripe.center.bean.GoodsCategory;
+import com.theripe.center.controller.vo.MallIndexCategoryVO;
+import com.theripe.center.controller.vo.SearchPageCategoryVO;
 import com.theripe.center.utils.PageQueryUtil;
 import com.theripe.center.utils.PageResult;
 
@@ -18,5 +20,7 @@ public interface MallCategoryService {
     String saveCategory(GoodsCategory goodsCategory);
     String updateGoodsCategory(GoodsCategory goodsCategory);
     GoodsCategory getGoodsCategoryById(Long id);
+    SearchPageCategoryVO getCategoriesForSearch(Long categoryId);
+    List<MallIndexCategoryVO> getCategoriesForIndex();
 
 }

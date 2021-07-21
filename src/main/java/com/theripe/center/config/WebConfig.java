@@ -17,10 +17,10 @@ public class WebConfig implements WebMvcConfigurer {
     AdminLoginInterceptor adminLoginInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(adminLoginInterceptor)
-//                .addPathPatterns("/admin/**")
-//                .excludePathPatterns("/admin/login")
-//                .excludePathPatterns("/admin/dist/**")//把静态资源放处来，不然页面无效果
-//                .excludePathPatterns("/admin/plugins/**");
+        registry.addInterceptor(adminLoginInterceptor)
+                .addPathPatterns("/admin/**")
+                .excludePathPatterns("/admin/login")
+                .excludePathPatterns("/admin/dist/**")//把静态资源放处来，不然页面无效果
+                .excludePathPatterns("/admin/plugins/**");
     }
 }

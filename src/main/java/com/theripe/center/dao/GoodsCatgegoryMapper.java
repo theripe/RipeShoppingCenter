@@ -23,4 +23,5 @@ public interface GoodsCatgegoryMapper {
    List<GoodsCategory> findGoodsCategoryList(PageQueryUtil pageUtil);
    int getTotalGoodsCategories(PageQueryUtil pageUtil);
    int deleteBatch(Integer[] ids);
+
 }

@@ -10,6 +10,7 @@ import com.theripe.center.dao.MallShoppingCartItemMapper;
 import com.theripe.center.service.MallShoppingCartService;
 import com.theripe.center.utils.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  * @Author TheRipe
  * @create 2021/7/20 9:19
  */
+@Service
 public class MallShoppingCartServiceImpl implements MallShoppingCartService {
 
     @Autowired
